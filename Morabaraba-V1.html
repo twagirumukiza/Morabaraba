@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Morabaraba</title>
+<style>
+:root{
+  --wood1:#2d160b;--wood2:#4a2814;--wood3:#6b3d1f;--board:#80502d;--board2:#9c6740;
+  --chalk:#f4ead7;--cream:#fff5df;--text:#fff6df;--muted:#d9c3a7;--yellow:#ffd51b;--red:#b92f20;
+  --green:#79b85a;--shadow:rgba(0,0,0,.42)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:
+ linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px) 0 0/48px 100%,
+ repeating-linear-gradient(0deg,var(--wood1) 0 70px,#251108 72px 76px,var(--wood2) 78px 145px);color:var(--text)}
+body{min-height:100vh;padding:16px;display:flex;justify-content:center;align-items:center}
+.app{width:min(100%,760px);min-height:min(940px,calc(100vh - 32px));background:linear-gradient(145deg,rgba(81,44,22,.94),rgba(45,23,12,.96));border:1px solid rgba(255,255,255,.08);border-radius:28px;box-shadow:0 24px 70px #0008,inset 0 1px #ffffff14;overflow:hidden;position:relative}
+.topbar{display:flex;align-items:center;justify-content:center;min-height:94px;padding:16px 72px 10px;position:relative;border-bottom:1px solid #ffffff12}
+.brand{font-family:Georgia,serif;font-size:clamp(2rem,7vw,3.4rem);font-weight:900;letter-spacing:.5px;color:#fff4d8;text-shadow:0 3px 0 #3b1c0e,0 7px 12px #0008;line-height:1}.subbrand{font-size:.7rem;letter-spacing:.23em;text-transform:uppercase;color:#d8c1a4;text-align:center;margin-top:5px}.icon-btn{position:absolute;top:17px;width:48px;height:48px;border-radius:50%;border:1px solid #ffffff1b;background:linear-gradient(#54301a,#2d170c);color:#fff1d6;font-size:1.4rem;box-shadow:0 5px 12px #0006;cursor:pointer}.icon-btn.left{left:16px}.icon-btn.right{right:16px}.screen{display:none;padding:20px;min-height:700px}.screen.active{display:flex;flex-direction:column;align-items:center}.hero-cap{width:92px;height:92px;border-radius:50%;margin:26px auto 18px;background:radial-gradient(circle at 38% 33%,#fff05a 0 7%,#ffe11f 8% 50%,#d9a900 51% 68%,#8b6510 69% 73%,#ffdc17 74%);box-shadow:0 8px 12px #0007,inset 0 0 0 5px #f9d436,inset 0 0 0 9px #be8f0e;position:relative}.hero-cap:after{content:"";position:absolute;inset:-6px;border:6px dashed #d2a20f;border-radius:50%}
+.menu{width:min(100%,390px);display:grid;gap:12px;margin-top:8px}.btn{border:0;border-radius:16px;padding:15px 18px;font-size:1rem;font-weight:800;color:#fff4da;background:linear-gradient(#8a4e28,#5d3018);box-shadow:0 6px 0 #32180c,0 10px 20px #0004;cursor:pointer;transition:.12s}.btn:active{transform:translateY(3px);box-shadow:0 3px 0 #32180c}.btn.primary{background:linear-gradient(#b85c2a,#783616)}.btn.yellow{color:#2b1b0b;background:linear-gradient(#ffe134,#d4aa0a);box-shadow:0 6px 0 #8f6a05}.btn.ghost{background:#2e1b11;border:1px solid #ffffff18;box-shadow:none}.btn.danger{background:linear-gradient(#a83b2d,#6e2119)}
+.card{width:min(100%,520px);background:#2a180fbb;border:1px solid #ffffff12;border-radius:18px;padding:16px;box-shadow:inset 0 1px #ffffff0c;margin-bottom:12px}.card h3{margin:0 0 10px;color:#ffd84c}.field{display:grid;gap:6px;margin:10px 0}.field label{font-size:.85rem;color:var(--muted);font-weight:700}.field input,.field select{width:100%;padding:12px 13px;border-radius:12px;border:1px solid #ffffff18;background:#1d120d;color:#fff4df;font-size:1rem;outline:none}
+.game-wrap{width:100%;display:flex;flex-direction:column;align-items:center}.hud{width:min(100%,620px);display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}.player-card{background:#2a180f;border:1px solid #ffffff14;border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:10px;transition:.2s}.player-card.active{outline:3px solid #f0d35b;box-shadow:0 0 0 4px #0005}.mini-cap{width:38px;height:38px;min-width:38px;border-radius:50%;box-shadow:0 4px 7px #0007;position:relative}.mini-cap.yellow{background:radial-gradient(circle at 38% 33%,#fff361 0 8%,#ffd918 10% 58%,#a77a08 61% 70%,#ffd918 72%)}.mini-cap.yellow:after{content:"";position:absolute;inset:-2px;border:3px dashed #b9850d;border-radius:50%}.mini-cap.red{background:radial-gradient(circle,#9f281d 0 45%,#681812 46% 55%,#d8d0bd 57% 66%,#7a7367 67% 74%,#d2cbb9 75%)}.mini-cap.red:after{content:"";position:absolute;inset:5px;border:2px solid #d25a46;border-radius:50%;opacity:.8}.ptext{min-width:0}.pname{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pstats{font-size:.73rem;color:#d9c3a7;margin-top:2px}.status{width:min(100%,620px);min-height:46px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;color:#ffe77b;margin:2px 0 10px;padding:5px 10px}.phase-badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#0004;border:1px solid #ffffff16;font-size:.75rem;color:#f1dcc0;margin-right:7px}
+.board-frame{width:min(100%,620px);aspect-ratio:1;background:linear-gradient(135deg,var(--board2),var(--board));border-radius:16px;padding:15px;box-shadow:0 12px 22px #0007,inset 0 0 0 4px #2a160c,inset 0 0 30px #2b130c80;position:relative}.board-frame:before{content:"";position:absolute;inset:8px;border:1px solid #ffffff14;border-radius:10px;pointer-events:none}.board{width:100%;height:100%;display:block}.board-line{stroke:var(--chalk);stroke-width:7;stroke-linecap:round;opacity:.93;filter:drop-shadow(0 2px 0 #3b1f12)}.node-hit{fill:transparent;cursor:pointer}.node-dot{fill:#f5ecd7;stroke:#6c472d;stroke-width:2}.node-dot.valid{fill:#81c863;stroke:#d8ffc6;stroke-width:5;animation:pulse 1s infinite}.node-dot.capture{fill:#e85b45;stroke:#ffd1c8;stroke-width:5;animation:pulse .8s infinite}.selection{fill:none;stroke:#8eff6e;stroke-width:7;stroke-dasharray:8 6;animation:spin 2s linear infinite;transform-box:fill-box;transform-origin:center}@keyframes pulse{50%{opacity:.45}}@keyframes spin{to{transform:rotate(360deg)}}
+.cap-shadow{fill:#000;opacity:.35}.cap-yellow-main{fill:url(#yellowCap)}.cap-yellow-rim{fill:none;stroke:#a27508;stroke-width:5;stroke-dasharray:4 3}.cap-red-metal{fill:url(#metalCap)}.cap-red-inner{fill:url(#redInside);stroke:#7c160f;stroke-width:4}.cap-red-ring{fill:none;stroke:#e8dfcb;stroke-width:5;stroke-dasharray:5 3;opacity:.85}.piece-group{cursor:pointer;filter:drop-shadow(0 6px 4px #0007)}
+.controls{width:min(100%,620px);display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.notice{width:min(100%,620px);font-size:.75rem;color:#cbb599;text-align:center;margin-top:10px}.rules{width:min(100%,560px);max-height:570px;overflow:auto;line-height:1.48;padding-right:5px}.rules h3{color:#ffd94a;margin:16px 0 5px}.rules p,.rules li{color:#f3e4cf;font-size:.93rem}.rules ul{padding-left:20px}.footer{text-align:center;color:#bca48b;font-size:.75rem;padding:5px 0 18px;letter-spacing:.08em}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:22px;z-index:20}.modal.show{display:flex}.modal-box{width:min(100%,420px);background:linear-gradient(#4b2a17,#2a160d);border:1px solid #ffffff20;border-radius:22px;padding:22px;text-align:center;box-shadow:0 25px 70px #000}.modal-box h2{margin:0 0 8px;color:#ffe061}.modal-box p{color:#ead8c2}.modal-actions{display:grid;gap:10px;margin-top:16px}
+@media(max-width:560px){body{padding:0;align-items:stretch}.app{border-radius:0;min-height:100vh}.screen{padding:14px}.topbar{min-height:82px}.board-frame{padding:10px}.board-line{stroke-width:8}.hud{gap:6px}.player-card{padding:8px}.pname{font-size:.84rem}.pstats{font-size:.66rem}.mini-cap{width:32px;height:32px;min-width:32px}.status{font-size:.88rem}.controls{grid-template-columns:1fr 1fr}.btn{padding:13px 12px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <button class="icon-btn left" aria-label="Menu" onclick="goHome()">☰</button>
+    <div><div class="brand">Morabaraba</div><div class="subbrand">le jeu des vaches</div></div>
+    <button class="icon-btn right" aria-label="Règles" onclick="showScreen('rules-screen')">?</button>
+  </header>
+
+  <main id="home-screen" class="screen active">
+    <div class="hero-cap"></div>
+    <div style="text-align:center;max-width:430px;margin-bottom:15px;color:#e8d6bd">Formez des moulins, capturez les vaches adverses et gardez le contrôle du plateau.</div>
+    <div class="menu">
+      <button class="btn yellow" onclick="prepareGame('local')">2 joueurs local</button>
+      <button class="btn primary" onclick="prepareGame('ai')">Solo contre l’IA</button>
+      <button class="btn" onclick="showScreen('rules-screen')">Règles du jeu</button>
+      <button class="btn ghost" onclick="showScreen('settings-screen')">Paramètres</button>
+    </div>
+  </main>
+
+  <main id="setup-screen" class="screen">
+    <div class="card">
+      <h3>Préparer la partie</h3>
+      <div class="field"><label>Joueur Rouge — capsule à l’envers</label><input id="p1-name" value="Joueur Rouge"></div>
+      <div class="field"><label id="p2-label">Joueur Jaune — capsule à l’endroit</label><input id="p2-name" value="Joueur Jaune"></div>
+    </div>
+    <div class="menu">
+      <button class="btn yellow" onclick="startGame()">Démarrer</button>
+      <button class="btn ghost" onclick="showScreen('home-screen')">Retour</button>
+    </div>
+  </main>
+
+  <main id="settings-screen" class="screen">
+    <div class="card">
+      <h3>Paramètres</h3>
+      <div class="field"><label>Difficulté de l’IA</label><select id="ai-level"><option value="easy">Facile</option><option value="medium" selected>Moyen</option><option value="hard">Difficile</option></select></div>
+      <div class="field"><label>Effets sonores</label><select id="sound-setting"><option value="on" selected>Activés</option><option value="off">Désactivés</option></select></div>
+    </div>
+    <div class="menu"><button class="btn ghost" onclick="showScreen('home-screen')">Retour</button></div>
+  </main>
+
+  <main id="rules-screen" class="screen">
+    <div class="rules card">
+      <h3>Objectif</h3><p>Chaque joueur possède 12 « vaches ». Formez un moulin, c’est-à-dire trois vaches alignées sur une ligne du plateau, afin de retirer une vache adverse.</p>
+      <h3>1. Placer les vaches</h3><p>Le plateau commence vide. Le joueur Rouge commence. À chaque tour, posez une vache sur une intersection libre. Quand un moulin est formé, retirez une seule vache adverse.</p>
+      <h3>Capturer</h3><p>Une vache appartenant à un moulin ne peut pas être retirée tant que l’adversaire possède au moins une vache qui n’est pas dans un moulin. Si toutes ses vaches sont dans des moulins, n’importe laquelle peut être retirée.</p>
+      <h3>2. Déplacer les vaches</h3><p>Lorsque les 24 vaches ont été posées, déplacez à chaque tour une vache vers une intersection vide adjacente en suivant les lignes.</p>
+      <h3>3. Faire voler les vaches</h3><p>Lorsqu’un joueur n’a plus que 3 vaches, il peut déplacer une vache vers n’importe quelle intersection vide du plateau.</p>
+      <h3>Victoire</h3><ul><li>L’adversaire n’a plus que 2 vaches.</li><li>Ou il ne peut effectuer aucun déplacement légal.</li></ul>
+    </div>
+    <div class="menu"><button class="btn ghost" onclick="showScreen('home-screen')">Retour</button></div>
+  </main>
+
+  <main id="game-screen" class="screen">
+    <div class="game-wrap">
+      <div class="hud">
+        <div id="card1" class="player-card"><div class="mini-cap red"></div><div class="ptext"><div id="name1" class="pname">Joueur Rouge</div><div class="pstats"><span id="reserve1">12</span> réserve · <span id="board1">0</span> plateau</div></div></div>
+        <div id="card2" class="player-card"><div class="mini-cap yellow"></div><div class="ptext"><div id="name2" class="pname">Joueur Jaune</div><div class="pstats"><span id="reserve2">12</span> réserve · <span id="board2">0</span> plateau</div></div></div>
+      </div>
+      <div id="status" class="status"></div>
+      <div class="board-frame">
+        <svg id="board" class="board" viewBox="0 0 600 600" aria-label="Plateau de Morabaraba"></svg>
+      </div>
+      <div class="controls">
+        <button class="btn danger" onclick="confirmQuit()">Quitter</button>
+        <button class="btn ghost" onclick="confirmRestart()">Recommencer</button>
+      </div>
+      <div class="notice">Rouge : capsule retournée · Jaune : capsule à l’endroit</div>
+    </div>
+  </main>
+  <div class="footer">by twagirumukiza</div>
+</div>
+
+<div id="end-modal" class="modal"><div class="modal-box"><h2 id="end-title">Partie terminée</h2><p id="end-text"></p><div class="modal-actions"><button class="btn yellow" onclick="restartFromModal()">Rejouer</button><button class="btn ghost" onclick="closeModal();goHome()">Accueil</button></div></div></div>
+
+<script>
+const coords=[
+ {x:55,y:55},{x:300,y:55},{x:545,y:55},{x:545,y:300},{x:545,y:545},{x:300,y:545},{x:55,y:545},{x:55,y:300},
+ {x:130,y:130},{x:300,y:130},{x:470,y:130},{x:470,y:300},{x:470,y:470},{x:300,y:470},{x:130,y:470},{x:130,y:300},
+ {x:205,y:205},{x:300,y:205},{x:395,y:205},{x:395,y:300},{x:395,y:395},{x:300,y:395},{x:205,y:395},{x:205,y:300}
+];
+const lines=[
+ [0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],
+ [8,9],[9,10],[10,11],[11,12],[12,13],[13,14],[14,15],[15,8],
+ [16,17],[17,18],[18,19],[19,20],[20,21],[21,22],[22,23],[23,16],
+ [1,9],[9,17],[3,11],[11,19],[5,13],[13,21],[7,15],[15,23]
+];
+const mills=[
+ [0,1,2],[2,3,4],[4,5,6],[6,7,0],
+ [8,9,10],[10,11,12],[12,13,14],[14,15,8],
+ [16,17,18],[18,19,20],[20,21,22],[22,23,16],
+ [1,9,17],[3,11,19],[5,13,21],[7,15,23]
+];
+const adj=Array.from({length:24},()=>[]); lines.forEach(([a,b])=>{adj[a].push(b);adj[b].push(a)});
+let audioCtx=null;
+let settings={sound:'on',difficulty:'medium',p1:'Joueur Rouge',p2:'Joueur Jaune'};
+let state={mode:'local',board:Array(24).fill(0),turn:1,reserve:[0,12,12],onBoard:[0,0,0],phase:'placement',selected:null,capture:false,gameOver:false,aiBusy:false,lastMillKey:null};
+function syncSettings(){settings.sound=document.getElementById('sound-setting').value;settings.difficulty=document.getElementById('ai-level').value}
+function sound(type){syncSettings();if(settings.sound!=='on')return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);let f=type==='capture'?180:type==='mill'?760:type==='move'?360:500;o.frequency.setValueAtTime(f,audioCtx.currentTime);if(type==='mill')o.frequency.exponentialRampToValueAtTime(1040,audioCtx.currentTime+.18);g.gain.setValueAtTime(.16,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.2);o.start();o.stop(audioCtx.currentTime+.21)}catch(e){}}
+['touchstart','click'].forEach(e=>window.addEventListener(e,()=>{try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)()}catch(_){}},{once:true}));
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function goHome(){closeModal();showScreen('home-screen')}
+function prepareGame(mode){state.mode=mode;document.getElementById('p2-label').textContent=mode==='ai'?'IA Jaune — capsule à l’endroit':'Joueur Jaune — capsule à l’endroit';document.getElementById('p2-name').value=mode==='ai'?'IA Morabaraba':'Joueur Jaune';showScreen('setup-screen')}
+function startGame(){settings.p1=document.getElementById('p1-name').value.trim()||'Joueur Rouge';settings.p2=document.getElementById('p2-name').value.trim()||(state.mode==='ai'?'IA Morabaraba':'Joueur Jaune');syncSettings();state={...state,board:Array(24).fill(0),turn:1,reserve:[0,12,12],onBoard:[0,0,0],phase:'placement',selected:null,capture:false,gameOver:false,aiBusy:false,lastMillKey:null};showScreen('game-screen');render();updateHUD()}
+function currentName(){return state.turn===1?settings.p1:settings.p2}
+function playerName(p){return p===1?settings.p1:settings.p2}
+function isMillAt(i,p,board=state.board){return mills.some(m=>m.includes(i)&&m.every(n=>board[n]===p))}
+function pieceInMill(i,p,board=state.board){return mills.some(m=>m.includes(i)&&m.every(n=>board[n]===p))}
+function capturableIndices(victim){const pieces=state.board.map((v,i)=>v===victim?i:-1).filter(i=>i>=0);const free=pieces.filter(i=>!pieceInMill(i,victim));return free.length?free:pieces}
+function phaseForPlayer(p){if(state.reserve[1]>0||state.reserve[2]>0)return 'placement';return state.onBoard[p]===3?'flying':'movement'}
+function validMovesFrom(i,p){if(state.onBoard[p]===3&&state.reserve[1]===0&&state.reserve[2]===0)return state.board.map((v,k)=>v===0?k:-1).filter(k=>k>=0);return adj[i].filter(k=>state.board[k]===0)}
+function hasAnyMove(p){if(state.reserve[1]>0||state.reserve[2]>0)return true;if(state.onBoard[p]===3)return state.board.some(v=>v===0);return state.board.some((v,i)=>v===p&&adj[i].some(n=>state.board[n]===0))}
+function checkWinAfterCapture(){const opp=state.turn===1?2:1;if(state.reserve[1]===0&&state.reserve[2]===0&&state.onBoard[opp]<3){endGame(state.turn,`${playerName(opp)} n’a plus assez de vaches pour former un moulin.`);return true}return false}
+function nextTurn(){state.selected=null;state.capture=false;state.turn=state.turn===1?2:1;state.phase=phaseForPlayer(state.turn);if(state.reserve[1]===0&&state.reserve[2]===0&&!hasAnyMove(state.turn)){endGame(state.turn===1?2:1,`${playerName(state.turn)} est bloqué et ne peut plus jouer.`);return}render();updateHUD();maybeAI()}
+function placeAt(i){if(state.board[i]!==0||state.reserve[state.turn]<=0)return;state.board[i]=state.turn;state.reserve[state.turn]--;state.onBoard[state.turn]++;sound('place');if(isMillAt(i,state.turn)){state.capture=true;sound('mill');render();updateHUD();maybeAI();return}nextTurn()}
+function movePiece(from,to){if(state.board[from]!==state.turn||state.board[to]!==0)return;const legal=validMovesFrom(from,state.turn);if(!legal.includes(to))return;state.board[from]=0;state.board[to]=state.turn;state.selected=null;sound('move');if(isMillAt(to,state.turn)){state.capture=true;sound('mill');render();updateHUD();maybeAI();return}nextTurn()}
+function captureAt(i){const victim=state.turn===1?2:1;const valid=capturableIndices(victim);if(!valid.includes(i))return;state.board[i]=0;state.onBoard[victim]--;sound('capture');if(checkWinAfterCapture())return;nextTurn()}
+function onNode(i){if(state.gameOver||state.aiBusy)return;if(state.capture){captureAt(i);return}const phase=phaseForPlayer(state.turn);state.phase=phase;if(phase==='placement'){placeAt(i);return}if(state.selected===null){if(state.board[i]===state.turn&&validMovesFrom(i,state.turn).length){state.selected=i;sound('move');render();updateHUD()}return}if(i===state.selected){state.selected=null;render();return}if(state.board[i]===state.turn){if(validMovesFrom(i,state.turn).length){state.selected=i;render()}return}if(state.board[i]===0)movePiece(state.selected,i)}
+function capSVG(x,y,p,selected=false){if(p===2){return `<g class="piece-group" pointer-events="none"><circle class="cap-shadow" cx="${x+4}" cy="${y+6}" r="29"/><circle class="cap-yellow-main" cx="${x}" cy="${y}" r="27"/><circle class="cap-yellow-rim" cx="${x}" cy="${y}" r="27"/>${selected?`<circle class="selection" cx="${x}" cy="${y}" r="34"/>`:''}</g>`}return `<g class="piece-group" pointer-events="none"><circle class="cap-shadow" cx="${x+4}" cy="${y+6}" r="29"/><circle class="cap-red-metal" cx="${x}" cy="${y}" r="29"/><circle class="cap-red-inner" cx="${x}" cy="${y}" r="21"/><circle class="cap-red-ring" cx="${x}" cy="${y}" r="28"/>${selected?`<circle class="selection" cx="${x}" cy="${y}" r="35"/>`:''}</g>`}
+function render(){const svg=document.getElementById('board');let s=`<defs><radialGradient id="yellowCap" cx="35%" cy="30%"><stop offset="0" stop-color="#fff783"/><stop offset=".18" stop-color="#ffe82b"/><stop offset=".68" stop-color="#f2c400"/><stop offset="1" stop-color="#a87900"/></radialGradient><radialGradient id="metalCap"><stop offset="0" stop-color="#f2eee3"/><stop offset=".55" stop-color="#c8c0ad"/><stop offset=".78" stop-color="#7d776d"/><stop offset="1" stop-color="#ded5c0"/></radialGradient><radialGradient id="redInside" cx="35%" cy="30%"><stop offset="0" stop-color="#d75443"/><stop offset=".55" stop-color="#ad2a1e"/><stop offset="1" stop-color="#67150f"/></radialGradient></defs>`;lines.forEach(([a,b])=>{s+=`<line class="board-line" x1="${coords[a].x}" y1="${coords[a].y}" x2="${coords[b].x}" y2="${coords[b].y}"/>`});let valid=[];if(state.selected!==null&&!state.capture)valid=validMovesFrom(state.selected,state.turn);const captures=state.capture?capturableIndices(state.turn===1?2:1):[];coords.forEach((c,i)=>{let cl='node-dot';if(valid.includes(i))cl+=' valid';if(captures.includes(i))cl+=' capture';s+=`<circle class="${cl}" cx="${c.x}" cy="${c.y}" r="7" pointer-events="none"/><circle class="node-hit" cx="${c.x}" cy="${c.y}" r="31" data-i="${i}"/>`;if(state.board[i])s+=capSVG(c.x,c.y,state.board[i],state.selected===i)});svg.innerHTML=s;svg.querySelectorAll('[data-i]').forEach(el=>el.addEventListener('click',()=>onNode(+el.dataset.i)))}
+function updateHUD(){document.getElementById('name1').textContent=settings.p1;document.getElementById('name2').textContent=settings.p2;document.getElementById('reserve1').textContent=state.reserve[1];document.getElementById('reserve2').textContent=state.reserve[2];document.getElementById('board1').textContent=state.onBoard[1];document.getElementById('board2').textContent=state.onBoard[2];document.getElementById('card1').classList.toggle('active',state.turn===1&&!state.gameOver);document.getElementById('card2').classList.toggle('active',state.turn===2&&!state.gameOver);const st=document.getElementById('status');if(state.gameOver)return;if(state.aiBusy){st.innerHTML=`<span class="phase-badge">IA</span>${settings.p2} réfléchit…`;return}if(state.capture){st.innerHTML=`<span class="phase-badge">MOULIN</span>${currentName()} : choisissez une vache adverse à retirer`;return}const ph=phaseForPlayer(state.turn);const label=ph==='placement'?'PLACEMENT':ph==='flying'?'VOL':'DÉPLACEMENT';const action=ph==='placement'?'posez une vache':ph==='flying'?'déplacez une vache vers n’importe quelle case libre':'déplacez une vache le long d’une ligne';st.innerHTML=`<span class="phase-badge">${label}</span>${currentName()} : ${action}`}
+function endGame(winner,reason){state.gameOver=true;state.aiBusy=false;render();updateHUD();document.getElementById('end-title').textContent=`${playerName(winner)} gagne !`;document.getElementById('end-text').textContent=reason;sound('mill');document.getElementById('end-modal').classList.add('show')}
+function closeModal(){document.getElementById('end-modal').classList.remove('show')}
+function restartFromModal(){closeModal();startGame()}
+function confirmRestart(){if(confirm('Recommencer la partie depuis le début ?'))startGame()}
+function confirmQuit(){if(confirm('Quitter la partie et revenir à l’accueil ?'))goHome()}
+function maybeAI(){if(state.mode!=='ai'||state.turn!==2||state.gameOver)return;state.aiBusy=true;updateHUD();setTimeout(()=>{aiTurn();state.aiBusy=false;if(!state.gameOver)updateHUD()},650)}
+function scorePosition(board,p){let score=0;for(const m of mills){const vals=m.map(i=>board[i]);const pc=vals.filter(v=>v===p).length,ec=vals.filter(v=>v===0).length;if(pc===3)score+=100;if(pc===2&&ec===1)score+=16;if(pc===1&&ec===2)score+=3}return score}
+function choose(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function aiTurn(){if(state.gameOver||state.turn!==2)return;if(state.capture){const valid=capturableIndices(1);let pick=valid[0];if(settings.difficulty!=='easy'){let best=-1e9;for(const i of valid){const b=[...state.board];b[i]=0;const sc=-scorePosition(b,1);if(sc>best){best=sc;pick=i}}}captureAt(pick);return}const ph=phaseForPlayer(2);if(ph==='placement'){const empty=state.board.map((v,i)=>v===0?i:-1).filter(i=>i>=0);let pick=choose(empty);if(settings.difficulty!=='easy'){let best=-1e9;for(const i of empty){const b=[...state.board];b[i]=2;let sc=scorePosition(b,2)*2-scorePosition(b,1);b[i]=1;if(isMillBoard(i,1,b))sc+=55;if(sc>best){best=sc;pick=i}}}placeAt(pick);return}let moves=[];state.board.forEach((v,i)=>{if(v===2)validMovesFrom(i,2).forEach(to=>moves.push({from:i,to}))});if(!moves.length){endGame(1,`${settings.p2} est bloquée.`);return}let pick=choose(moves);if(settings.difficulty!=='easy'){let best=-1e9;for(const m of moves){const b=[...state.board];b[m.from]=0;b[m.to]=2;let sc=scorePosition(b,2)*2-scorePosition(b,1);if(isMillBoard(m.to,2,b))sc+=120;if(sc>best){best=sc;pick=m}}}movePiece(pick.from,pick.to)}
+function isMillBoard(i,p,b){return mills.some(m=>m.includes(i)&&m.every(n=>b[n]===p))}
+render();updateHUD();
+</script>
+</body>
+</html>
